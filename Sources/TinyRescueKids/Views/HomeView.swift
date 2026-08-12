@@ -34,7 +34,7 @@ struct HomeView: View {
                         HStack(spacing: 14) {
                             ForEach(Buddy.crew) { buddy in
                                 Button {
-                                    Speaker.shared.speak("我是" + buddy.name + "！")
+                                    buddy.sayCatchphrase() // 用狗狗专属声音喊口头禅
                                 } label: {
                                     VStack(spacing: 2) {
                                         Text(buddy.emoji)
@@ -70,7 +70,8 @@ struct HomeView: View {
                     .environmentObject(progress)
             }
             .onAppear {
-                Speaker.shared.speak("狗狗救援队，出发做任务啦！")
+                // 莱德队长的开场白（清亮少年音）
+                Speaker.shared.speak(Buddy.ryderGreeting, pitch: 1.25, rate: 0.42)
             }
         }
     }

@@ -49,8 +49,9 @@ struct GameHostView: View {
             }
         }
         .onAppear {
-            // 进关语音播报玩法说明（猜物品/比大小关由游戏自身播报，避免抢话）
-            if level.kind != .guessItem && level.kind != .sizeSort {
+            // 进关语音播报玩法说明（自己播报的关卡除外，避免抢话）
+            let selfSpeaking: Set<GameKind> = [.guessItem, .sizeSort, .fireRescue, .recycle, .rollCall]
+            if !selfSpeaking.contains(level.kind) {
                 Speaker.shared.speak(level.kind.instruction)
             }
         }
@@ -74,6 +75,12 @@ struct GameHostView: View {
             GuessItemGame(onSuccess: advance)
         case .sizeSort:
             SizeSortGame(onSuccess: advance)
+        case .fireRescue:
+            FireRescueGame(onSuccess: advance)
+        case .recycle:
+            RecycleGame(onSuccess: advance)
+        case .rollCall:
+            RollCallGame(onSuccess: advance)
         }
     }
 

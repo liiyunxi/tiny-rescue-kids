@@ -10,14 +10,17 @@ final class Speaker {
     private init() {}
 
     /// 朗读文本（自动打断上一句，语速放慢适合幼儿）
-    func speak(_ text: String) {
+    /// - Parameters:
+    ///   - pitch: 音调（1.0 基准，越高越尖，用于区分狗狗声音）
+    ///   - rate: 语速（0.5 基准，越小越慢）
+    func speak(_ text: String, pitch: Float = 1.15, rate: Float = 0.42) {
         if synthesizer.isSpeaking {
             synthesizer.stopSpeaking(at: .immediate)
         }
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: "zh-CN")
-        utterance.rate = 0.42      // 默认0.5，放慢一点幼儿更容易听清
-        utterance.pitchMultiplier = 1.15 // 音调稍高，更亲切
+        utterance.rate = rate
+        utterance.pitchMultiplier = pitch
         synthesizer.speak(utterance)
     }
 
