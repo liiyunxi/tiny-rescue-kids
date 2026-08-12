@@ -1,0 +1,14 @@
+# Xcode
+build/
+DerivedData/
+*.xcarchive
+*.ipa
+Payload/
+xcuserdata/
+*.xcuserstate
+
+# macOS
+.DS_Store
+
+# XcodeGen 产物（由 project.yml 生成，不入库）
+TinyRescueKids.xcodeproj/

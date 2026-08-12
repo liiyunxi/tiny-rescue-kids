@@ -1,0 +1,40 @@
+# GitHub Actions 云端打包方案（没有 Mac 时使用）
+# 把项目推到 GitHub 仓库后，在 Actions 页面手动触发即可
+# 产出：未签名的 .ipa（可用 AltStore/Sideloadly + 免费 Apple ID 自签名安装）
+name: Build IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装 XcodeGen
+        run: brew install xcodegen
+
+      - name: 生成 Xcode 工程
+        run: xcodegen generate
+
+      - name: 编译（不签名）
+        run: |
+          xcodebuild build \
+            -scheme TinyRescueKids \
+            -destination "generic/platform=iOS" \
+            -configuration Release \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: 打包未签名 ipa
+        run: |
+          APP_PATH=$(find build/Build/Products/Release-iphoneos -name "*.app" -maxdepth 1 | head -1)
+          mkdir -p Payload
+          cp -r "$APP_PATH" Payload/
+          zip -r TinyRescueKids-unsigned.ipa Payload
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TinyRescueKids-unsigned-ipa
+          path: TinyRescueKids-unsigned.ipa

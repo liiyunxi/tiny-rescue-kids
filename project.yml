@@ -1,0 +1,26 @@
+name: TinyRescueKids
+options:
+  bundleIdPrefix: com.tinyrescuekids
+  deploymentTarget:
+    iOS: "16.0"
+
+targets:
+  TinyRescueKids:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources/TinyRescueKids
+    info:
+      path: Sources/TinyRescueKids/Info.plist
+      properties:
+        CFBundleDisplayName: 小小救援队
+        UILaunchScreen_Generation: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIRequiresFullScreen: true
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tinyrescuekids.app
+        SWIFT_VERSION: "5.9"
+        TARGETED_DEVICE_FAMILY: "1,2"
